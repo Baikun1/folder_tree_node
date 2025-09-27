@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>📂 Enhanced File Tree Explorer</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body { 
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+      min-height: 100vh;
+    }
+    .node circle { 
+      cursor: pointer; 
+      transition: all 0.3s ease;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+    }
+    .node circle:hover {
+      transform: scale(1.1);
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
+    }
+    .link { 
+      fill: none; 
+      stroke: #cbd5e1; 
+      stroke-width: 2px;
+      transition: all 0.3s ease;
+    }
+    .link:hover {
+      stroke: #6366f1;
+      stroke-width: 3px;
+    }
+    .tree-text {
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .tree-text:hover {
+      color: #4f46e5;
+      transform: translateX(2px);
+    }
+    .card-hover {
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.85);
+    }
+    .card-hover:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 40px rgba(99, 102, 241, 0.15);
+      background: rgba(255, 255, 255, 0.95);
+    }
+    .search-box:focus-within {
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in {
+      animation: fadeIn 0.5s ease forwards;
+    }
+  </style>
+</head>
+<body class="p-4 md:p-6">
+  <div class="max-w-7xl mx-auto fade-in">
+    <!-- Header Section -->
+    <div class="text-center mb-8">
+      <h1 class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-3">
+        <i class="fas fa-folder-tree mr-3"></i>CampusOLX Project Structure Explorer
+      </h1>
+      <p class="text-gray-600 max-w-2xl mx-auto">Interactive visualization of CampusOLX project structure with dynamic data loading, search, filtering, and smooth animations</p>
+    </div>
+
+    <!-- Controls Panel -->
+    <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-6 mb-6 card-hover border border-white/60">
+      <div class="flex flex-wrap gap-4 items-center justify-between">
+        <div class="flex flex-wrap gap-3">
+          <div class="search-box relative flex-1 min-w-[300px]">
+            <input type="text" id="searchInput" placeholder="Search files and folders..." 
+                   class="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-indigo-300 transition-colors">
+            <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+          </div>
+          <button id="expandAll" class="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-3 rounded-xl font-medium transition-colors flex items-center gap-2">
+            <i class="fas fa-expand-alt"></i> Expand All
+          </button>
+          <button id="collapseAll" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-3 rounded-xl font-medium transition-colors flex items-center gap-2">
+            <i class="fas fa-compress-alt"></i> Collapse All
+          </button>
+        </div>
+        <div class="flex items-center gap-4">
+          <div class="flex items-center gap-2">
+            <div class="w-3 h-3 rounded-full bg-indigo-500"></div>
+            <span class="text-sm text-gray-600">Folders</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="w-3 h-3 rounded-full bg-green-500"></div>
+            <span class="text-sm text-gray-600">Files</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Visualization Container -->
+    <div class="bg-white/80 backdrop-blur-sm rounded-2xl overflow-hidden card-hover border border-white/60">
+      <div class="p-4 border-b border-gray-100 flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <span id="nodeCount" class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm font-medium">Loading...</span>
+          <span id="selectedInfo" class="text-gray-600 text-sm"></span>
+        </div>
+        <div class="flex gap-2">
+          <button id="zoomIn" class="w-8 h-8 flex items-center justify-center bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">
+            <i class="fas fa-plus text-gray-700"></i>
+          </button>
+          <button id="zoomOut" class="w-8 h-8 flex items-center justify-center bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">
+            <i class="fas fa-minus text-gray-700"></i>
+          </button>
+          <button id="resetZoom" class="w-8 h-8 flex items-center justify-center bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">
+            <i class="fas fa-search text-gray-700"></i>
+          </button>
+        </div>
+      </div>
+      <div class="relative overflow-hidden">
+        <svg width="100%" height="700" id="tree-svg"></svg>
+        <div id="tooltip" class="absolute invisible bg-white/95 backdrop-blur-sm rounded-xl p-4 shadow-2xl border border-gray-200 max-w-xs z-10 transition-all duration-200"></div>
+      </div>
+    </div>
+
+    <!-- Footer Info -->
+    <div class="text-center mt-6 text-gray-500 text-sm">
+      <p>Click on folders to expand/collapse • Drag to pan • Use mouse wheel to zoom</p>
+    </div>
+  </div>
+
+  <script>
+    // Configuration
+    const config = {
+      width: 1200,
+      height: 700,
+      duration: 400,
+      nodeSpacing: 120,
+      depthSpacing: 200,
+      maxLabelLength: 25
+    };
+
+    // Initialize SVG and zoom behavior
+    const svg = d3.select("#tree-svg")
+      .attr("viewBox", `0 0 ${config.width} ${config.height}`)
+      .call(d3.zoom().on("zoom", function(event) {
+        g.attr("transform", event.transform);
+      }))
+      .append("g");
+
+    const g = svg.append("g")
+      .attr("transform", `translate(100, 60)`);
+
+    // Tree layout with improved separation :cite[1]:cite[3]
+    const treeLayout = d3.tree()
+      .nodeSize([config.nodeSpacing, config.depthSpacing])
+      .separation((a, b) => (a.parent === b.parent ? 1.2 : 2) / a.depth);
+
+    // Load data dynamically from tree.json
+    let root;
+    let currentRoot;
+
+    function addTypesAndSizes(node) {
+      if (node.children) {
+        node.type = 'folder';
+        node.children.forEach(addTypesAndSizes);
+      } else {
+        node.type = 'file';
+        // Add approximate file sizes based on extension
+        const ext = node.name.split('.').pop().toLowerCase();
+        const sizeMap = {
+          'py': '1.5 KB',
+          'html': '3.2 KB',
+          'js': '2.8 KB',
+          'json': '0.5 KB',
+          'css': '1.8 KB',
+          'md': '4.1 KB',
+          'txt': '0.3 KB',
+          'pdf': '150 KB',
+          'sqlite3': '500 KB',
+          'lock': '0.2 KB',
+          'config': '0.8 KB'
+        };
+        node.size = sizeMap[ext] || '1.0 KB';
+      }
+    }
+
+    async function loadData() {
+      try {
+        d3.select("#nodeCount").text("Loading...");
+        const response = await fetch('tree.json');
+        if (!response.ok) {
+          throw new Error('Failed to load tree.json');
+        }
+        const data = await response.json();
+        data.name = "CampusOLX"; // Rename root for better display
+        addTypesAndSizes(data);
+        root = d3.hierarchy(data);
+        currentRoot = root;
+        initTree();
+      } catch (error) {
+        console.error('Error loading data:', error);
+        d3.select("#nodeCount").text("Error loading data");
+        // Fallback to a minimal tree or handle as needed
+      }
+    }
+
+    // Initialize visualization after loading data
+    loadData();
+
+    function initTree() {
+      updateTree(root);
+      addEventListeners();
+    }
+
+    function updateTree(source) {
+      const treeData = treeLayout(root);
+      const nodes = treeData.descendants();
+      const links = treeData.links();
+
+      // Update node count
+      d3.select("#nodeCount").text(`${nodes.length} Items`);
+
+      // Links with curved paths
+      const link = g.selectAll(".link")
+        .data(links, d => d.target.data.name);
+
+      const linkEnter = link.enter()
+        .append("path")
+        .attr("class", "link")
+        .attr("d", d => createCurvedPath(d.source, d.target))
+        .style("opacity", 0);
+
+      linkEnter.merge(link)
+        .transition()
+        .duration(config.duration)
+        .attr("d", d => createCurvedPath(d.source, d.target))
+        .style("opacity", 1);
+
+      link.exit()
+        .transition()
+        .duration(config.duration)
+        .style("opacity", 0)
+        .remove();
+
+      // Nodes with enhanced styling :cite[4]:cite[5]
+      const node = g.selectAll(".node")
+        .data(nodes, d => d.data.name);
+
+      const nodeEnter = node.enter()
+        .append("g")
+        .attr("class", "node")
+        .attr("transform", d => `translate(${source.y0},${source.x0})`)
+        .on("click", handleNodeClick)
+        .on("mouseover", showTooltip)
+        .on("mouseout", hideTooltip);
+
+      // Node circles with different colors for files/folders
+      nodeEnter.append("circle")
+        .attr("r", 0)
+        .attr("class", "node-circle")
+        .style("fill", d => d.data.type === "folder" ? "#6366f1" : "#10b981")
+        .style("stroke", d => d.data.type === "folder" ? "#4f46e5" : "#059669")
+        .style("stroke-width", 2);
+
+      // Node labels with icons and truncation
+      nodeEnter.append("text")
+        .attr("dy", ".35em")
+        .attr("x", d => d.children || d._children ? -15 : 15)
+        .attr("text-anchor", d => d.children || d._children ? "end" : "start")
+        .attr("class", "tree-text select-none")
+        .text(d => {
+          const icon = d.data.type === "folder" ? "📂" : "📄";
+          const label = d.data.name.length > config.maxLabelLength 
+            ? d.data.name.substring(0, config.maxLabelLength) + "..." 
+            : d.data.name;
+          return `${icon} ${label}`;
+        })
+        .style("font-size", "14px")
+        .style("fill", d => d.data.type === "folder" ? "#3730a3" : "#065f46");
+
+      const nodeUpdate = nodeEnter.merge(node);
+
+      nodeUpdate.transition()
+        .duration(config.duration)
+        .attr("transform", d => `translate(${d.y},${d.x})`);
+
+      nodeUpdate.select("circle")
+        .transition()
+        .duration(config.duration)
+        .attr("r", 8)
+        .style("fill", d => {
+          if (d._children) return "#8b5cf6"; // Collapsed folder
+          return d.data.type === "folder" ? "#6366f1" : "#10b981";
+        });
+
+      // Handle exiting nodes
+      const nodeExit = node.exit()
+        .transition()
+        .duration(config.duration)
+        .attr("transform", d => `translate(${source.y},${source.x})`)
+        .remove();
+
+      nodeExit.select("circle").attr("r", 0);
+      nodeExit.select("text").style("opacity", 0);
+
+      // Store positions for transition
+      nodes.forEach(d => {
+        d.x0 = d.x;
+        d.y0 = d.y;
+      });
+    }
+
+    function handleNodeClick(event, d) {
+      if (d.children) {
+        d._children = d.children;
+        d.children = null;
+      } else {
+        d.children = d._children;
+        d._children = null;
+      }
+      updateTree(d);
+    }
+
+    function createCurvedPath(source, target) {
+      return `M ${source.y} ${source.x}
+              C ${(source.y + target.y) / 2} ${source.x},
+                ${(source.y + target.y) / 2} ${target.x},
+                ${target.y} ${target.x}`;
+    }
+
+    function showTooltip(event, d) {
+      const tooltip = d3.select("#tooltip");
+      tooltip.html(`
+        <div class="font-semibold text-gray-800 mb-1">${d.data.name}</div>
+        <div class="text-sm text-gray-600">Type: ${d.data.type}</div>
+        ${d.data.size ? `<div class="text-sm text-gray-600">Size: ${d.data.size}</div>` : ''}
+        <div class="text-sm text-gray-600">Depth: ${d.depth}</div>
+      `)
+        .style("left", (event.pageX + 10) + "px")
+        .style("top", (event.pageY - 10) + "px")
+        .classed("invisible", false);
+    }
+
+    function hideTooltip() {
+      d3.select("#tooltip").classed("invisible", true);
+    }
+
+    function addEventListeners() {
+      // Expand all nodes
+      d3.select("#expandAll").on("click", () => {
+        root.each(d => {
+          if (d._children) {
+            d.children = d._children;
+            d._children = null;
+          }
+        });
+        updateTree(root);
+      });
+
+      // Collapse all nodes
+      d3.select("#collapseAll").on("click", () => {
+        root.each(d => {
+          if (d.children && d.depth > 0) {
+            d._children = d.children;
+            d.children = null;
+          }
+        });
+        updateTree(root);
+      });
+
+      // Search functionality
+      d3.select("#searchInput").on("input", function() {
+        const searchTerm = this.value.toLowerCase();
+        if (searchTerm.length === 0) {
+          updateTree(root);
+          return;
+        }
+
+        root.each(d => {
+          const isMatch = d.data.name.toLowerCase().includes(searchTerm);
+          d.highlight = isMatch;
+          
+          // Expand ancestors of matching nodes
+          if (isMatch) {
+            let ancestor = d;
+            while (ancestor) {
+              if (ancestor.parent && ancestor.parent._children) {
+                ancestor.parent.children = ancestor.parent._children;
+                ancestor.parent._children = null;
+              }
+              ancestor = ancestor.parent;
+            }
+          }
+        });
+
+        updateTree(root);
+        
+        // Highlight matching nodes
+        g.selectAll(".node")
+          .select("text")
+          .style("font-weight", d => d.highlight ? "bold" : "normal")
+          .style("fill", d => d.highlight ? "#dc2626" : (d.data.type === "folder" ? "#3730a3" : "#065f46"));
+      });
+    }
+  </script>
+</body>
+</html>
