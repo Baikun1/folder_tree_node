@@ -78,7 +78,7 @@
       <div class="flex flex-wrap gap-4 items-center justify-between">
         <div class="flex flex-wrap gap-3">
           <div class="search-box relative flex-1 min-w-[300px]">
-            <input type="text" id="searchInput" placeholder="Search files and folders..." 
+            <input type="text" id="searchInput" placeholder="Search files and folders..."
                    class="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-indigo-300 transition-colors">
             <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
           </div>
@@ -98,6 +98,19 @@
             <div class="w-3 h-3 rounded-full bg-green-500"></div>
             <span class="text-sm text-gray-600">Files</span>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Timeline Panel -->
+    <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-6 mb-6 card-hover border border-white/60">
+      <div class="flex flex-wrap gap-4 items-center justify-between">
+        <div class="flex items-center gap-3">
+          <span class="text-lg font-semibold text-gray-800">Project Timeline</span>
+          <span class="text-sm text-gray-600">Switch between versions</span>
+        </div>
+        <div id="timelineButtons" class="flex gap-2 flex-wrap">
+          <!-- Buttons will be added dynamically -->
         </div>
       </div>
     </div>
@@ -160,7 +173,9 @@
       .nodeSize([config.nodeSpacing, config.depthSpacing])
       .separation((a, b) => (a.parent === b.parent ? 1.2 : 2) / a.depth);
 
-    // Load data dynamically from tree.json
+    // Load data dynamically from multiple JSON files
+    let versions = [];
+    let currentVersionIndex = 0;
     let root;
     let currentRoot;
 
@@ -192,21 +207,61 @@
     async function loadData() {
       try {
         d3.select("#nodeCount").text("Loading...");
-        const response = await fetch('tree.json');
-        if (!response.ok) {
-          throw new Error('Failed to load tree.json');
+        // Load multiple JSON files
+        const jsonFiles = ['tree.json', 'tree1.json'];
+        const timestamps = ['2025-09-28 02:00 AM', '2025-09-28 07:35 AM'];
+
+        for (let i = 0; i < jsonFiles.length; i++) {
+          const response = await fetch(jsonFiles[i]);
+          if (!response.ok) {
+            throw new Error(`Failed to load ${jsonFiles[i]}`);
+          }
+          const data = await response.json();
+          data.name = "CampusOLX"; // Rename root for better display
+          addTypesAndSizes(data);
+          versions.push({
+            timestamp: timestamps[i],
+            data: d3.hierarchy(data)
+          });
         }
-        const data = await response.json();
-        data.name = "CampusOLX"; // Rename root for better display
-        addTypesAndSizes(data);
-        root = d3.hierarchy(data);
+
+        // Set initial version
+        root = versions[0].data;
         currentRoot = root;
+        createTimelineButtons();
         initTree();
       } catch (error) {
         console.error('Error loading data:', error);
         d3.select("#nodeCount").text("Error loading data");
-        // Fallback to a minimal tree or handle as needed
       }
+    }
+
+    function createTimelineButtons() {
+      const timelineButtons = d3.select("#timelineButtons");
+      versions.forEach((version, index) => {
+        timelineButtons.append("button")
+          .attr("class", `px-4 py-2 rounded-xl font-medium transition-colors ${index === 0 ? 'bg-indigo-500 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`)
+          .attr("data-version", index)
+          .text(version.timestamp)
+          .on("click", function() {
+            switchVersion(+d3.select(this).attr("data-version"));
+          });
+      });
+    }
+
+    function switchVersion(index) {
+      if (index === currentVersionIndex) return;
+      currentVersionIndex = index;
+      root = versions[index].data;
+      currentRoot = root;
+
+      // Update button styles
+      d3.select("#timelineButtons").selectAll("button")
+        .attr("class", (d, i) => `px-4 py-2 rounded-xl font-medium transition-colors ${i === index ? 'bg-indigo-500 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`);
+
+      // Clear existing tree and re-render
+      g.selectAll("*").remove();
+      updateTree(root);
     }
 
     // Initialize visualization after loading data
