@@ -208,8 +208,8 @@
       try {
         d3.select("#nodeCount").text("Loading...");
         // Load multiple JSON files
-        const jsonFiles = ['tree.json', 'tree1.json'];
-        const timestamps = ['2025-09-28 02:00 AM', '2025-09-28 07:35 AM'];
+        const jsonFiles = ['tree.json', 'tree1.json', 'tree3.json'];
+        const timestamps = ['2025-09-28 02:00 AM', '2025-09-28 07:35 AM','2025-09-29 01:15 PM'];
 
         for (let i = 0; i < jsonFiles.length; i++) {
           const response = await fetch(jsonFiles[i]);

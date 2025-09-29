@@ -1,0 +1,836 @@
+{
+    "name": ".",
+    "children": [
+        {
+            "name": "Product",
+            "children": [
+                {
+                    "name": "__init__.py"
+                },
+                {
+                    "name": "admin.py"
+                },
+                {
+                    "name": "apps.py"
+                },
+                {
+                    "name": "chat_consumer.py"
+                },
+                {
+                    "name": "chat_routing.py"
+                },
+                {
+                    "name": "context_processors.py"
+                },
+                {
+                    "name": "forms.py"
+                },
+                {
+                    "name": "main_urls.py"
+                },
+                {
+                    "name": "management",
+                    "children": [
+                        {
+                            "name": "commands",
+                            "children": [
+                                {
+                                    "name": "check_nsfw_images.py"
+                                },
+                                {
+                                    "name": "cleanup_categories.py"
+                                },
+                                {
+                                    "name": "create_missing_categories.py"
+                                },
+                                {
+                                    "name": "populate_categories.py"
+                                },
+                                {
+                                    "name": "populate_fake_data.py"
+                                },
+                                {
+                                    "name": "populate_images.py"
+                                },
+                                {
+                                    "name": "populate_slugs.py"
+                                },
+                                {
+                                    "name": "populate_subcategory_products.py"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "models",
+                    "children": [
+                        {
+                            "name": "__init__.py"
+                        },
+                        {
+                            "name": "base.py"
+                        },
+                        {
+                            "name": "catalog.py"
+                        },
+                        {
+                            "name": "chat.py"
+                        },
+                        {
+                            "name": "notification.py"
+                        },
+                        {
+                            "name": "order.py"
+                        },
+                        {
+                            "name": "report.py"
+                        },
+                        {
+                            "name": "review.py"
+                        },
+                        {
+                            "name": "user.py"
+                        }
+                    ]
+                },
+                {
+                    "name": "nsfw.py"
+                },
+                {
+                    "name": "templates",
+                    "children": [
+                        {
+                            "name": "admin_dashboard.html"
+                        },
+                        {
+                            "name": "auth",
+                            "children": [
+                                {
+                                    "name": "create_profile.html"
+                                },
+                                {
+                                    "name": "login.html"
+                                },
+                                {
+                                    "name": "profile.html"
+                                },
+                                {
+                                    "name": "register.html"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "base.html"
+                        },
+                        {
+                            "name": "chat",
+                            "children": [
+                                {
+                                    "name": "chat.html"
+                                },
+                                {
+                                    "name": "inbox.html"
+                                },
+                                {
+                                    "name": "message_partial.html"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "include",
+                            "children": [
+                                {
+                                    "name": "message_popup.html"
+                                },
+                                {
+                                    "name": "navbarwithsidbar.html"
+                                },
+                                {
+                                    "name": "sidebar.html"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "index.html"
+                        },
+                        {
+                            "name": "order",
+                            "children": [
+                                {
+                                    "name": "buyer_orders.html"
+                                },
+                                {
+                                    "name": "buyer_track_order.html"
+                                },
+                                {
+                                    "name": "manage_order.html"
+                                },
+                                {
+                                    "name": "order_tracking.html"
+                                },
+                                {
+                                    "name": "place_order.html"
+                                },
+                                {
+                                    "name": "seller_orders.html"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "product",
+                            "children": [
+                                {
+                                    "name": "_product_cards.html"
+                                },
+                                {
+                                    "name": "_tag_suggestions.html"
+                                },
+                                {
+                                    "name": "add_product.html"
+                                },
+                                {
+                                    "name": "admin_approve_reject.html"
+                                },
+                                {
+                                    "name": "admin_report_list.html"
+                                },
+                                {
+                                    "name": "admin_review_report.html"
+                                },
+                                {
+                                    "name": "edit_product.html"
+                                },
+                                {
+                                    "name": "product_detail.html"
+                                },
+                                {
+                                    "name": "product_list.html"
+                                },
+                                {
+                                    "name": "product_list_react.html"
+                                },
+                                {
+                                    "name": "report_product.html"
+                                },
+                                {
+                                    "name": "user_products.html"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "product_list_unapproved.html"
+                        },
+                        {
+                            "name": "user",
+                            "children": [
+                                {
+                                    "name": "admin_user_detail.html"
+                                },
+                                {
+                                    "name": "create_admin.html"
+                                },
+                                {
+                                    "name": "docs_help.html"
+                                },
+                                {
+                                    "name": "notification",
+                                    "children": [
+                                        {
+                                            "name": "notification_list.html"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "partials",
+                                    "children": [
+                                        {
+                                            "name": "products_container.html"
+                                        },
+                                        {
+                                            "name": "products_list.html"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "support.html"
+                                },
+                                {
+                                    "name": "wishlist",
+                                    "children": [
+                                        {
+                                            "name": "wishlist.html"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "user_dashboard.html"
+                        }
+                    ]
+                },
+                {
+                    "name": "templatetags",
+                    "children": [
+                        {
+                            "name": "custom_filters.py"
+                        }
+                    ]
+                },
+                {
+                    "name": "urlconf",
+                    "children": [
+                        {
+                            "name": "api_urls.py"
+                        },
+                        {
+                            "name": "api_urls_v2.py"
+                        },
+                        {
+                            "name": "messages_urls.py"
+                        },
+                        {
+                            "name": "order_urls.py"
+                        },
+                        {
+                            "name": "product_urls.py"
+                        },
+                        {
+                            "name": "report_urls.py"
+                        },
+                        {
+                            "name": "review_urls.py"
+                        },
+                        {
+                            "name": "user_urls.py"
+                        }
+                    ]
+                },
+                {
+                    "name": "views",
+                    "children": [
+                        {
+                            "name": "__init__.py"
+                        },
+                        {
+                            "name": "api",
+                            "children": [
+                                {
+                                    "name": "serializers",
+                                    "children": [
+                                        {
+                                            "name": "__init__.py"
+                                        },
+                                        {
+                                            "name": "order_serializers.py"
+                                        },
+                                        {
+                                            "name": "product_serializers.py"
+                                        },
+                                        {
+                                            "name": "report_serializers.py"
+                                        },
+                                        {
+                                            "name": "tag_serializers.py"
+                                        },
+                                        {
+                                            "name": "user_serializers.py"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "views",
+                                    "children": [
+                                        {
+                                            "name": "__init__.py"
+                                        },
+                                        {
+                                            "name": "v1",
+                                            "children": [
+                                                {
+                                                    "name": "admin_views.py"
+                                                },
+                                                {
+                                                    "name": "order_views.py"
+                                                },
+                                                {
+                                                    "name": "product_views.py"
+                                                },
+                                                {
+                                                    "name": "tag_views.py"
+                                                },
+                                                {
+                                                    "name": "user_views.py"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "name": "v2",
+                                            "children": [
+                                                {
+                                                    "name": "__init__.py"
+                                                },
+                                                {
+                                                    "name": "admin_views_v2.py"
+                                                },
+                                                {
+                                                    "name": "order_views_v2.py"
+                                                },
+                                                {
+                                                    "name": "product_views_v2.py"
+                                                },
+                                                {
+                                                    "name": "tag_views_v2.py"
+                                                },
+                                                {
+                                                    "name": "user_views_v2.py"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "api_views.py"
+                        },
+                        {
+                            "name": "api_views_admin.py"
+                        },
+                        {
+                            "name": "base_views.py"
+                        },
+                        {
+                            "name": "chat_views.py"
+                        },
+                        {
+                            "name": "notification_views.py"
+                        },
+                        {
+                            "name": "order_views.py"
+                        },
+                        {
+                            "name": "product_views.py"
+                        },
+                        {
+                            "name": "report_views.py"
+                        },
+                        {
+                            "name": "review_views.py"
+                        },
+                        {
+                            "name": "user_views.py"
+                        }
+                    ]
+                },
+                {
+                    "name": "views.py"
+                }
+            ]
+        },
+        {
+            "name": "campusolx",
+            "children": [
+                {
+                    "name": "__init__.py"
+                },
+                {
+                    "name": "asgi.py"
+                },
+                {
+                    "name": "middleware.py"
+                },
+                {
+                    "name": "routing.py"
+                },
+                {
+                    "name": "settings.py"
+                },
+                {
+                    "name": "urls.py"
+                },
+                {
+                    "name": "wsgi.py"
+                }
+            ]
+        },
+        {
+            "name": "db.sqlite3"
+        },
+        {
+            "name": "main.pdf"
+        },
+        {
+            "name": "manage.py"
+        },
+        {
+            "name": "package-lock.json"
+        },
+        {
+            "name": "package.json"
+        },
+        {
+            "name": "requirements.txt"
+        },
+        {
+            "name": "static",
+            "children": [
+                {
+                    "name": "css",
+                    "children": [
+                        {
+                            "name": "admin_dashboard.css"
+                        },
+                        {
+                            "name": "auth",
+                            "children": [
+                                {
+                                    "name": "create_profile.css"
+                                },
+                                {
+                                    "name": "login.css"
+                                },
+                                {
+                                    "name": "profile.css"
+                                },
+                                {
+                                    "name": "register.css"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "base.css"
+                        },
+                        {
+                            "name": "chat",
+                            "children": [
+                                {
+                                    "name": "chat.css"
+                                },
+                                {
+                                    "name": "inbox.css"
+                                },
+                                {
+                                    "name": "message_partial.css"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "include",
+                            "children": [
+                                {
+                                    "name": "message_popup.css"
+                                },
+                                {
+                                    "name": "navbarwithsidbar.css"
+                                },
+                                {
+                                    "name": "sidebar.css"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "index.css"
+                        },
+                        {
+                            "name": "order",
+                            "children": [
+                                {
+                                    "name": "buyer_orders.css"
+                                },
+                                {
+                                    "name": "buyer_track_order.css"
+                                },
+                                {
+                                    "name": "manage_order.css"
+                                },
+                                {
+                                    "name": "order_tracking.css"
+                                },
+                                {
+                                    "name": "place_order.css"
+                                },
+                                {
+                                    "name": "seller_orders.css"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "product",
+                            "children": [
+                                {
+                                    "name": "_product_cards.css"
+                                },
+                                {
+                                    "name": "_tag_suggestions.css"
+                                },
+                                {
+                                    "name": "add_product.css"
+                                },
+                                {
+                                    "name": "admin_approve_reject.css"
+                                },
+                                {
+                                    "name": "admin_report_list.css"
+                                },
+                                {
+                                    "name": "admin_review_report.css"
+                                },
+                                {
+                                    "name": "edit_product.css"
+                                },
+                                {
+                                    "name": "product_detail.css"
+                                },
+                                {
+                                    "name": "product_list.css"
+                                },
+                                {
+                                    "name": "product_list_react.css"
+                                },
+                                {
+                                    "name": "report_product.css"
+                                },
+                                {
+                                    "name": "user_products.css"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "product_list_unapproved.css"
+                        },
+                        {
+                            "name": "user",
+                            "children": [
+                                {
+                                    "name": "admin_user_detail.css"
+                                },
+                                {
+                                    "name": "create_admin.css"
+                                },
+                                {
+                                    "name": "docs_help.css"
+                                },
+                                {
+                                    "name": "notification",
+                                    "children": [
+                                        {
+                                            "name": "notification_list.css"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "partials",
+                                    "children": [
+                                        {
+                                            "name": "products_container.css"
+                                        },
+                                        {
+                                            "name": "products_list.css"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "support.css"
+                                },
+                                {
+                                    "name": "wishlist",
+                                    "children": [
+                                        {
+                                            "name": "wishlist.css"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "user_dashboard.css"
+                        }
+                    ]
+                },
+                {
+                    "name": "images",
+                    "children": [
+                        {
+                            "name": "close-up-mystery-box.jpg"
+                        }
+                    ]
+                },
+                {
+                    "name": "js",
+                    "children": [
+                        {
+                            "name": "admin_dashboard.js"
+                        },
+                        {
+                            "name": "auth",
+                            "children": [
+                                {
+                                    "name": "create_profile.js"
+                                },
+                                {
+                                    "name": "login.js"
+                                },
+                                {
+                                    "name": "profile.js"
+                                },
+                                {
+                                    "name": "register.js"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "base.js"
+                        },
+                        {
+                            "name": "chat",
+                            "children": [
+                                {
+                                    "name": "chat.js"
+                                },
+                                {
+                                    "name": "inbox.js"
+                                },
+                                {
+                                    "name": "message_partial.js"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "include",
+                            "children": [
+                                {
+                                    "name": "message_popup.js"
+                                },
+                                {
+                                    "name": "navbarwithsidbar.js"
+                                },
+                                {
+                                    "name": "sidebar.js"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "index.js"
+                        },
+                        {
+                            "name": "order",
+                            "children": [
+                                {
+                                    "name": "buyer_orders.js"
+                                },
+                                {
+                                    "name": "buyer_track_order.js"
+                                },
+                                {
+                                    "name": "manage_order.js"
+                                },
+                                {
+                                    "name": "order_tracking.js"
+                                },
+                                {
+                                    "name": "place_order.js"
+                                },
+                                {
+                                    "name": "seller_orders.js"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "product",
+                            "children": [
+                                {
+                                    "name": "_product_cards.js"
+                                },
+                                {
+                                    "name": "_tag_suggestions.js"
+                                },
+                                {
+                                    "name": "add_product.js"
+                                },
+                                {
+                                    "name": "admin_approve_reject.js"
+                                },
+                                {
+                                    "name": "admin_report_list.js"
+                                },
+                                {
+                                    "name": "admin_review_report.js"
+                                },
+                                {
+                                    "name": "edit_product.js"
+                                },
+                                {
+                                    "name": "product_detail.js"
+                                },
+                                {
+                                    "name": "product_list.js"
+                                },
+                                {
+                                    "name": "product_list_react.js"
+                                },
+                                {
+                                    "name": "report_product.js"
+                                },
+                                {
+                                    "name": "user_products.js"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "product_list_unapproved.js"
+                        },
+                        {
+                            "name": "user",
+                            "children": [
+                                {
+                                    "name": "admin_user_detail.js"
+                                },
+                                {
+                                    "name": "create_admin.js"
+                                },
+                                {
+                                    "name": "docs_help.js"
+                                },
+                                {
+                                    "name": "notification",
+                                    "children": [
+                                        {
+                                            "name": "notification_list.js"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "partials",
+                                    "children": [
+                                        {
+                                            "name": "products_container.js"
+                                        },
+                                        {
+                                            "name": "products_list.js"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "support.js"
+                                },
+                                {
+                                    "name": "wishlist",
+                                    "children": [
+                                        {
+                                            "name": "wishlist.js"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "user_dashboard.js"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

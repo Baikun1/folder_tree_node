@@ -1,0 +1,10 @@
+{
+  "projects": [
+    {
+      "id": "campusolx",
+      "name": "CampusOLX",
+      "description": "Marketplace for campus community",
+      "created_at": "2025-09-25",
+      "last_updated": "2025-09-28"
+    },
+}
